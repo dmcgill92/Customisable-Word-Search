@@ -14,6 +14,12 @@ public class LetterGrid : MonoBehaviour
 	public WordList wordList;
 	[SerializeField]
 	private WordListDisplay display;
+	[SerializeField]
+	private GameEvent updateEvent;
+
+	[SerializeField]
+	private List<Tile> curTiles;
+	public string curWord;
 
 
     // Start is called before the first frame update
@@ -32,6 +38,7 @@ public class LetterGrid : MonoBehaviour
 	{
 		//CreateTiles()
 		//PositionTiles()
+
 	}
 
 	void SetWordList()
@@ -59,7 +66,7 @@ public class LetterGrid : MonoBehaviour
 		sr.Close();
 
 		// Pass word list to be displayed
-		wordList = new WordList(words);
+		wordList = ScriptableObject.CreateInstance<WordList>().Init(words, updateEvent);
 
 		// REMOVE
 		display.SetDisplay(wordList);
@@ -97,5 +104,55 @@ public class LetterGrid : MonoBehaviour
 
 		//close the file
 		sr.Close();
+	}
+
+	public void SelectTiles(List<Tile> tiles)
+	{
+		if(curTiles.Count>0)
+		{
+			DeselectTiles();
+			curTiles.Clear();
+			curWord = string.Empty;
+		}
+
+		for (int i = 0; i < tiles.Count; i++)
+		{
+			Tile tile = tiles[i];
+			tile.Select(true);
+			curWord += tile.letter;
+			curTiles.Add(tile);
+		}
+		CheckWord();
+	}
+
+	public void DeselectTiles()
+	{
+		for(int i = 0; i < curTiles.Count; i++)
+		{
+			if(curTiles[i])
+			curTiles[i].Select(false);
+		}
+	}
+
+	public void CheckWord()
+	{
+		Debug.Log("Checking words");
+		List<Word> words = wordList.words;
+		for(int i = 0; i < words.Count; i++)
+		{
+			Word word = words[i];
+			if(!word.isFound.State)
+			{
+				if(curWord == word.value)
+				{
+					word.isFound.State = true;
+					for( int j = 0; j < curTiles.Count; j++)
+					{
+						curTiles[j].ToggleCorrectState();
+					}
+					return;
+				}
+			}
+		}
 	}
 }
