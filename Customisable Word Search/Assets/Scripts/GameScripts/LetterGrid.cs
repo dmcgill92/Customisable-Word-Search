@@ -21,6 +21,9 @@ public class LetterGrid : MonoBehaviour
 	private List<Tile> curTiles;
 	public string curWord;
 
+	[SerializeField]
+	private GameObject line;
+
 
     // Start is called before the first frame update
     void Start()
@@ -150,9 +153,12 @@ public class LetterGrid : MonoBehaviour
 					{
 						curTiles[j].ToggleCorrectState();
 					}
+					Instantiate(line, line.transform.parent, true);
+					line.GetComponent<LineRenderer>().positionCount = 0;
 					return;
 				}
 			}
 		}
+		line.GetComponent<LineRenderer>().positionCount = 0;
 	}
 }

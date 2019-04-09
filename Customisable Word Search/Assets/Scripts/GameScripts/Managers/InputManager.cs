@@ -151,13 +151,26 @@ public class InputManager : MonoBehaviour
 	void StartDraw(Tile tile)
 	{
 		Vector3 startPos = tile.transform.position;
+		Color randCol = new Color(Random.Range(0.0f, 1.0f), Random.Range(0.0f, 1.0f), Random.Range(0.0f, 1.0f), 0.75f);
+		line.SetColors(randCol, randCol);
 		startPos.z = -1;
-		line.numPositions = 1;
+		line.positionCount = 1;
 		line.SetPosition(0, startPos);
 	}
 
 	void EndDraw(Vector2 pos)
 	{
+		List<Tile> tiles = UpdateDraw(pos);
+		grid.SelectTiles(tiles);
+	}
+
+
+	List<Tile> UpdateDraw(Vector2 pos)
+	{
+		if(line.positionCount < 2)
+		{
+			line.positionCount = 2;
+		}
 		Vector3 startPos = line.GetPosition(0);
 		Vector3 endPos = (Vector3)pos;
 		float distance = Vector2.Distance(startPos, endPos);
@@ -165,7 +178,7 @@ public class InputManager : MonoBehaviour
 		int numTiles = 0;
 		float angle = Quaternion.FromToRotation((Vector2)endPos - (Vector2)startPos, Vector2.up).eulerAngles.z;
 		float roundedAngle = Mathf.Round(angle / 45) * 45;
-		if(roundedAngle % 90 == 0)
+		if (roundedAngle % 90 == 0)
 		{
 			numTiles = Mathf.RoundToInt(distance / spacing);
 			Debug.Log("Number of Tiles: " + numTiles);
@@ -181,16 +194,15 @@ public class InputManager : MonoBehaviour
 		Vector3 newLineVec = startPos + (rotation * Vector3.up * roundedDistance);
 		endPos = newLineVec;
 		endPos.z = -1;
-
-		endPos = CheckForTiles(startPos, endPos, numTiles, roundedDistance);
-		endPos.z = -1;
+		List<Tile> tiles = CheckForTilesOnLine(startPos, endPos, out endPos, numTiles, roundedDistance);
 		line.SetPosition(1, endPos);
+		return tiles;
 	}
 
-	Vector3 CheckForTiles(Vector2 startPos, Vector2 endPos, int numTiles, float roundedDistance)
+	List<Tile> CheckForTilesOnLine(Vector2 startPos, Vector2 endPos, out Vector3 endPoint, int numTiles, float roundedDistance)
 	{
 		Vector2 line = endPos - startPos;
-		Vector3 endPoint = Vector3.zero;
+		endPoint = Vector3.zero;
 		List<Tile> tiles = new List<Tile>();
 		for(int i = 0; i <= numTiles; i++)
 		{
@@ -211,26 +223,14 @@ public class InputManager : MonoBehaviour
 				Tile tile = collider.GetComponent<Tile>();
 				tiles.Add(tile);
 				endPoint = point;
+				endPoint.z = -1;
 			}
 			else
 			{
-				grid.SelectTiles(tiles);
-				return endPoint;
+				return tiles;
 			}
 			
 		}
-		grid.SelectTiles(tiles);
-		return endPoint;
-	}
-
-	void UpdateDraw(Vector2 pos)
-	{
-		if(line.numPositions != 2)
-		{
-			line.numPositions = 2;
-		}
-		Vector3 endPos = pos;
-		endPos.z = -1;
-		line.SetPosition(1, endPos);
+		return tiles;
 	}
 }

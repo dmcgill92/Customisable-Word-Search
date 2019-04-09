@@ -9,15 +9,17 @@ public class WordListDisplay : MonoBehaviour
 	private WordList wordList;
 	[SerializeField]
 	private bool showWords;
-	private TMPro.TextMeshPro display;
+	[SerializeField]
+	private TMPro.TextMeshProUGUI display;
 
 
 	public void SetDisplay(WordList words)
 	{
-		Component[] columns = GetComponentsInChildren<TMPro.TextMeshPro>();
-		foreach (TMPro.TextMeshPro column in columns)
+		Component[] columns = GetComponentsInChildren<TMPro.TextMeshProUGUI>();
+		foreach (TMPro.TextMeshProUGUI column in columns)
 		{
-			if (column.transform.position.x < 0.0f)
+			Debug.Log(column.rectTransform.anchoredPosition.x);
+			if (column.rectTransform.anchoredPosition.x < 0.0f)
 			{
 				display = column;
 				break;
