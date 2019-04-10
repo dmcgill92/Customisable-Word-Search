@@ -11,11 +11,15 @@ public class InputManager : MonoBehaviour
 	private bool isDrawing;
 	private float spacing = 0.4f;
 	private float diagSpacing = 0.57f;
+	[SerializeField]
+	private List<Color> lineColors = new List<Color>();
+	[SerializeField]
+	private List<Color> availableColors = new List<Color>();
 
 	// Start is called before the first frame update
 	void Start()
 	{
-		
+		availableColors = new List<Color>(lineColors);
 	}
 
 	// Update is called once per frame
@@ -151,7 +155,13 @@ public class InputManager : MonoBehaviour
 	void StartDraw(Tile tile)
 	{
 		Vector3 startPos = tile.transform.position;
-		Color randCol = new Color(Random.Range(0.0f, 1.0f), Random.Range(0.0f, 1.0f), Random.Range(0.0f, 1.0f), 0.75f);
+		if(availableColors.Count == 0)
+		{
+			availableColors = new List<Color>(lineColors);
+		}
+		Color randCol = availableColors[Random.Range(0, availableColors.Count)];
+		availableColors.Remove(randCol);
+		randCol.a = 0.8f;
 		line.SetColors(randCol, randCol);
 		startPos.z = -1;
 		line.positionCount = 1;

@@ -10,8 +10,9 @@ public class WordListDisplay : MonoBehaviour
 	[SerializeField]
 	private bool showWords;
 	[SerializeField]
-	private TMPro.TextMeshProUGUI display;
-
+	private TMPro.TextMeshProUGUI displayLeft;
+	[SerializeField]
+	private TMPro.TextMeshProUGUI displayRight;
 
 	public void SetDisplay(WordList words)
 	{
@@ -21,8 +22,11 @@ public class WordListDisplay : MonoBehaviour
 			Debug.Log(column.rectTransform.anchoredPosition.x);
 			if (column.rectTransform.anchoredPosition.x < 0.0f)
 			{
-				display = column;
-				break;
+				displayLeft = column;
+			}
+			else
+			{
+				displayRight = column;
 			}
 		}
 		wordList = words;
@@ -32,12 +36,22 @@ public class WordListDisplay : MonoBehaviour
 	public void UpdateDisplay()
 	{
 		Debug.Log("UpdatingDisplay");
-		display.text = "";
-		for(int i = 0; i < wordList.words.Count; i++)
+		displayLeft.text = "";
+		displayRight.text = "";
+		for (int i = 0; i < wordList.words.Count; i++)
 		{
+			TMPro.TextMeshProUGUI display;
+			if(i % 2 == 0)
+			{
+				display = displayLeft;
+			}
+			else
+			{
+				display = displayRight;
+			}
+
 			if (wordList.words[i].isFound.State)
 			{
-				
 				display.text += "<s>" + wordList.words[i].value + "</s>\n";
 			}
 			else
