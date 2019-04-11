@@ -10,19 +10,14 @@ public class Tile : MonoBehaviour
 	public bool isCorrect;
 	public TMPro.TextMeshPro textMesh;
 	private Collider2D collider;
-	private SpriteRenderer renderer;
-	private Color prevColor = Color.white;
-	public Vector2 gridPos;
-	public List<Tile> adjacentTiles = new List<Tile>();
 
+	public int xCoord;
+	public int yCoord;
 	// Start is called before the first frame update
-	void Start()
+	void Awake()
 	{
 		collider = GetComponent<Collider2D>();
-		renderer = GetComponent<SpriteRenderer>();
 		textMesh = GetComponentInChildren<TMPro.TextMeshPro>();
-		letter = textMesh.text; //REMOVE when grid generator is built
-		GetAdjacent();
 	}
 
 	// Update is called once per frame
@@ -32,7 +27,7 @@ public class Tile : MonoBehaviour
 	}
 
 	// Assign letter to display
-	void SetTile (string ltr)
+	public void SetTile (string ltr)
 	{
 		letter = ltr;
 		textMesh.text = letter;
@@ -41,50 +36,21 @@ public class Tile : MonoBehaviour
 	public void Select()
 	{
 		isSelected = !isSelected;
-		if (isSelected)
-		{
-			renderer.color = Color.red;
-		}
-		else
-		{
-			renderer.color = Color.white;
-		}
 	}
 
 	public void Select(bool state)
 	{
 		isSelected = state;
-		if (isSelected)
-		{
-			renderer.color = Color.red;
-		}
-		else
-		{
-			renderer.color = prevColor;
-		}
 	}
 
 	public void ToggleCorrectState()
 	{
 		isCorrect = true;
-		renderer.color = Color.green;
-		prevColor = Color.green;
 	}
 
-	void GetAdjacent()
+	public void SetCoords(int x, int y)
 	{
-		Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, 0.5f);
-
-		for(int i = 0; i < colliders.Length; i++)
-		{
-			if(colliders[i].CompareTag("Tile"))
-			{
-				Tile collider = colliders[i].GetComponent<Tile>();
-				if(collider != this)
-				{
-					adjacentTiles.Add(collider);
-				}
-			}
-		}
+		xCoord = x;
+		yCoord = y;
 	}
 }

@@ -9,12 +9,15 @@ public class InputManager : MonoBehaviour
 	[SerializeField]
 	private LineRenderer line;
 	private bool isDrawing;
-	private float spacing = 0.4f;
-	private float diagSpacing = 0.57f;
 	[SerializeField]
 	private List<Color> lineColors = new List<Color>();
 	[SerializeField]
 	private List<Color> availableColors = new List<Color>();
+
+	[SerializeField]
+	private FloatVariable spacing;
+	[SerializeField]
+	private FloatVariable diagSpacing;
 
 	// Start is called before the first frame update
 	void Start()
@@ -55,7 +58,6 @@ public class InputManager : MonoBehaviour
 					{
 						if (hit.transform.CompareTag("Tile"))
 						{
-							Debug.Log("Hit tile");
 							isDrawing = true;
 							StartDraw(hit.transform.GetComponent<Tile>());
 						}
@@ -111,7 +113,6 @@ public class InputManager : MonoBehaviour
 			{
 				if (hit.transform.CompareTag("Tile"))
 				{
-					Debug.Log("Hit tile");
 					isDrawing = true;
 					StartDraw(hit.transform.GetComponent<Tile>());
 				}
@@ -190,15 +191,13 @@ public class InputManager : MonoBehaviour
 		float roundedAngle = Mathf.Round(angle / 45) * 45;
 		if (roundedAngle % 90 == 0)
 		{
-			numTiles = Mathf.RoundToInt(distance / spacing);
-			Debug.Log("Number of Tiles: " + numTiles);
-			roundedDistance = numTiles * spacing;
+			numTiles = Mathf.RoundToInt(distance / spacing.Number);
+			roundedDistance = numTiles * spacing.Number;
 		}
 		else
 		{
-			numTiles = Mathf.RoundToInt(distance / diagSpacing);
-			Debug.Log("Number of Tiles: " + numTiles);
-			roundedDistance = numTiles * diagSpacing;
+			numTiles = Mathf.RoundToInt(distance / diagSpacing.Number);
+			roundedDistance = numTiles * diagSpacing.Number;
 		}
 		Quaternion rotation = Quaternion.AngleAxis(roundedAngle, -Vector3.forward);
 		Vector3 newLineVec = startPos + (rotation * Vector3.up * roundedDistance);
@@ -225,7 +224,6 @@ public class InputManager : MonoBehaviour
 			{
 				step = (float)i / 1 * roundedDistance;
 			}
-			Debug.Log("Step: " + step);
 			Vector2 point = startPos + (line.normalized * step);
 			Collider2D collider = Physics2D.OverlapPoint(point);
 			if(collider)

@@ -9,8 +9,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e1a791898e80aa84eab9e97301e4f55a, type: 3}
-  m_Name: GridComplete
+  m_Script: {fileID: 11500000, guid: 472328b35b844e941a6b188c86c7176a, type: 3}
+  m_Name: DiagonalSpacing
   m_EditorClassIdentifier: 
-  toggleEvent: {fileID: 11400000, guid: 2f1d44034e755b24e993d5424fb3d28e, type: 2}
-  state: 0
+  toggleEvent: {fileID: 0}
+  number: 0

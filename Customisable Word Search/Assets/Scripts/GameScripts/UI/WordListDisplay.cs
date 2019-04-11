@@ -19,7 +19,6 @@ public class WordListDisplay : MonoBehaviour
 		Component[] columns = GetComponentsInChildren<TMPro.TextMeshProUGUI>();
 		foreach (TMPro.TextMeshProUGUI column in columns)
 		{
-			Debug.Log(column.rectTransform.anchoredPosition.x);
 			if (column.rectTransform.anchoredPosition.x < 0.0f)
 			{
 				displayLeft = column;
@@ -35,7 +34,6 @@ public class WordListDisplay : MonoBehaviour
 
 	public void UpdateDisplay()
 	{
-		Debug.Log("UpdatingDisplay");
 		displayLeft.text = "";
 		displayRight.text = "";
 		for (int i = 0; i < wordList.words.Count; i++)
