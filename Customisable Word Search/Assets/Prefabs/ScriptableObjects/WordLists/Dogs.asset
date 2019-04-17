@@ -1,0 +1,56 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c327640fe61c98849babc2ce4d072430, type: 3}
+  m_Name: Dogs
+  m_EditorClassIdentifier: 
+  theme: Dogs
+  words:
+  - value: BOXER
+    isFound: {fileID: 0}
+  - value: DALMATIAN
+    isFound: {fileID: 0}
+  - value: GREYHOUND
+    isFound: {fileID: 0}
+  - value: BEAGLE
+    isFound: {fileID: 0}
+  - value: BARK
+    isFound: {fileID: 0}
+  - value: HUSKY
+    isFound: {fileID: 0}
+  - value: FUR
+    isFound: {fileID: 0}
+  - value: BULLDOG
+    isFound: {fileID: 0}
+  - value: PITBULL
+    isFound: {fileID: 0}
+  - value: PUG
+    isFound: {fileID: 0}
+  - value: CORGI
+    isFound: {fileID: 0}
+  - value: LABRADOR
+    isFound: {fileID: 0}
+  - value: POODLE
+    isFound: {fileID: 0}
+  - value: PAWS
+    isFound: {fileID: 0}
+  - value: RETRIEVER
+    isFound: {fileID: 0}
+  - value: PUP
+    isFound: {fileID: 0}
+  - value: TERRIER
+    isFound: {fileID: 0}
+  - value: CHIHUAHUA
+    isFound: {fileID: 0}
+  - value: DINGO
+    isFound: {fileID: 0}
+  - value: MASTIFF
+    isFound: {fileID: 0}

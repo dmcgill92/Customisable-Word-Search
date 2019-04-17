@@ -20,7 +20,7 @@ public class InputManager : MonoBehaviour
 	private FloatVariable diagSpacing;
 
 	// Start is called before the first frame update
-	void Start()
+	void Awake()
 	{
 		availableColors = new List<Color>(lineColors);
 	}
@@ -32,11 +32,8 @@ public class InputManager : MonoBehaviour
 			CheckClicks();
 		#endif
 		#if UNITY_ANDROID && !UNITY_EDITOR
-			Debug.Log("CheckTouches");
 			CheckTouches();
 		#endif
-
-
 	}
 
 	void CheckTouches()

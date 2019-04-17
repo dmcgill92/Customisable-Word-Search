@@ -1,15 +1,19 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu]
-public class BoolVariable : ScriptableObject
+public class BoolVariable : ScriptableObject, ISerializationCallbackReceiver
 {
 	[SerializeField]
 	private GameEvent toggleEvent;
 
 	[SerializeField]
-	private bool state;
+	private bool initialState;
+
+	[NonSerialized]
+	public bool state;
 
 	public bool State
 	{
@@ -22,9 +26,19 @@ public class BoolVariable : ScriptableObject
 		{
 			if( state == value) return;
 			state = value;
-			toggleEvent.Raise();
+			if(toggleEvent != null)
+			{
+				toggleEvent.Raise();
+			}
 		}
 	}
+
+	public void OnAfterDeserialize()
+	{
+		state = initialState;
+	}
+
+	public void OnBeforeSerialize() { }
 
 	public BoolVariable Init()
 	{

@@ -4,38 +4,40 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu]
-public class FloatVariable : ScriptableObject, ISerializationCallbackReceiver
+public class StringVariable : ScriptableObject, ISerializationCallbackReceiver
 {
 	[SerializeField]
 	private GameEvent toggleEvent;
 
 	[SerializeField]
-	private float initialValue;
+	private string initialValue;
 
 	[NonSerialized]
-	public float number;
+	private string content;
 
-	public float Number
+	public string Content
 	{
 		get
 		{
-			return number;
+			return content;
 		}
 
 		set
 		{
-			number = value;
+			if (content == value) return;
+			content = value;
+			toggleEvent.Raise();
 		}
 	}
 
 	public void OnAfterDeserialize()
 	{
-		number = initialValue;
+		content = initialValue;
 	}
 
 	public void OnBeforeSerialize() { }
 
-	public FloatVariable Init()
+	public StringVariable Init()
 	{
 		return this;
 	}

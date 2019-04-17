@@ -3,16 +3,18 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [System.Serializable]
+[CreateAssetMenu]
 public class WordList : ScriptableObject
 {
+	public string theme;
 	public List<Word> words = new List<Word>();
 
-	public WordList Init(List<string> wordList, GameEvent updateEvent)
+	public WordList Init(GameEvent updateEvent)
 	{
 		// Add words to text mesh objects
-		for (int i = 0; i < wordList.Count; i++)
+		for (int i = 0; i < words.Count; i++)
 		{
-			words.Add( new Word(wordList[i], updateEvent));
+			words[i].Init(updateEvent);
 		}
 		return this;
 	}

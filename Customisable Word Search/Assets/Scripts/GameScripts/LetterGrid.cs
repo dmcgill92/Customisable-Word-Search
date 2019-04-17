@@ -5,51 +5,52 @@ using System.IO;
 
 public class LetterGrid : MonoBehaviour
 {
-	public GameObject tilePrefab;
-	public List<List<Tile>> tiles = new List<List<Tile>>();
-	[Range(5,12)]
-	public int gridSize = 12;
-	[Range(1, 10)]
-	public int complexity = 4;
-	private Vector2 gridCentre = new Vector2(0.0f, -2.2f);
-	public BoolVariable isGenerated;
 	[SerializeField]
-	public List<List<string>> gridLetters = new List<List<string>>();
+	private GameObject tilePrefab;
+	[SerializeField]
+	private GameObject line;
+
+	[Range(5,12)]
+	[SerializeField]
+	private int gridSize = 12;
+	[Range(1, 10)]
+	[SerializeField]
+	private int complexity = 4;
+	[SerializeField]
+	private BoolVariable isGenerated;
+	private List<List<Tile>> tiles = new List<List<Tile>>();
+	private List<List<string>> gridLetters = new List<List<string>>();
 	private List<List<string>> tempLetters = new List<List<string>>();
-	public WordList wordList;
+	private WordList wordList;
+
 	[SerializeField]
 	private WordListDisplay display;
 	[SerializeField]
 	private GameEvent updateEvent;
 
-	[SerializeField]
-	private List<Tile> curTiles;
-	public string curWord;
+	private List<Tile> curTiles = new List<Tile>();
+	private string curWord;
 
-	[SerializeField]
-	private GameObject line;
-
+	private Vector2 gridCentre = new Vector2(0.0f, -2.2f);
 	[SerializeField]
 	private FloatVariable spacing;
 	[SerializeField]
 	private FloatVariable diagSpacing;
 
+	private string log;
+	private GUIStyle style = new GUIStyle();
 
-
+	[SerializeField]
+	private StringVariable theme;
+	[SerializeField]
+	private List<WordList> wordSets = new List<WordList>();
 
 	// Start is called before the first frame update
 	void Start()
     {
-		float time = Time.realtimeSinceStartup;
+		style.fontSize = 92;
 		SetWordList();
 		GenerateGrid();
-		time -= Time.realtimeSinceStartup;
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 
 	void GenerateGrid()
@@ -66,32 +67,11 @@ public class LetterGrid : MonoBehaviour
 
 	void SetWordList()
 	{
-		string line;
-
-		StreamReader sr = new StreamReader("Assets/Resources/WordList.txt");
-
-		//Read the first line of text
-		line = sr.ReadLine();
-		List<string> words = new List<string>();
-		//Continue to read until you reach end of file
-		while (line != null)
-		{
-			// Add each word to list
-			string word = line;
-			words.Add(word);
-
-
-			//Read the next line
-			line = sr.ReadLine();
-		}
-
-		//close the file
-		sr.Close();
-
-		ShuffleList(words);
+		int rand = Random.Range(0, wordSets.Count);
 
 		// Pass word list to be displayed
-		wordList = ScriptableObject.CreateInstance<WordList>().Init(words, updateEvent);
+		wordList = Instantiate(wordSets[rand]).Init(updateEvent);
+		theme.Content = wordList.theme;
 	}
 
 	public void ShuffleList(List<string> arr)
@@ -118,7 +98,7 @@ public class LetterGrid : MonoBehaviour
 		{
 			Tile tile = tiles[i];
 			tile.Select(true);
-			curWord += tile.letter;
+			curWord += tile.GetLetter();
 			curTiles.Add(tile);
 		}
 		CheckWord();
@@ -148,7 +128,8 @@ public class LetterGrid : MonoBehaviour
 					{
 						curTiles[j].ToggleCorrectState();
 					}
-					Instantiate(line, line.transform.parent, true);
+					GameObject newLine = Instantiate(line, line.transform.parent, true);
+					newLine.name = "Line";
 					line.GetComponent<LineRenderer>().positionCount = 0;
 					return;
 				}
@@ -200,23 +181,26 @@ public class LetterGrid : MonoBehaviour
 		for(int i = 0; i < gridSize; i++)
 		{
 			List<string> tempList = new List<string>();
-			for( int j = 0; j < gridSize; j++)
+			List<string> temp2List = new List<string>();
+			for ( int j = 0; j < gridSize; j++)
 			{
 				tempList.Add(string.Empty);
+				temp2List.Add(string.Empty);
 			}
 			gridLetters.Add(tempList);
-			tempLetters.Add(tempList);
+			tempLetters.Add(temp2List);
 		}
 
 		int totalOverlap = 0;
 		int highestOverlap = 0;
 
-		List<Word> tempWordList = new List<Word>(wordList.words);
+		List<Word> initWordList = new List<Word>(wordList.words);
+		List<Word> savedWordList = new List<Word>(wordList.words);
 		float time = Time.realtimeSinceStartup;
 		while(totalOverlap < complexity * ((float)gridSize/10) && Time.realtimeSinceStartup - time < 1.0f)
 		{
-			ClearList();
-			wordList.words = new List<Word>(tempWordList);
+			ClearList(tempLetters);
+			wordList.words = new List<Word>(initWordList);
 			totalOverlap = 0;
 			int overlap = 0;
 			for(int i = sortedWords.Count - 1; i >= 0; i--)
@@ -225,12 +209,25 @@ public class LetterGrid : MonoBehaviour
 				CheckGrid(word, out overlap);
 				totalOverlap += overlap;
 			}
+			Debug.Log(string.Format("Complexity: {0}", totalOverlap));
 			if(totalOverlap > highestOverlap)
 			{
-				gridLetters = tempLetters;
+				Debug.Log(string.Format("Highest Complexity: {0}", totalOverlap));
+				for (int i = 0; i < gridSize; i++)
+				{
+					for (int j = 0; j < gridSize; j++)
+					{
+						gridLetters[i][j] = tempLetters[i][j];
+					}
+				}
+
+				savedWordList = new List<Word>(wordList.words);
+				ClearList(tempLetters);
 				highestOverlap = totalOverlap;
 			}
 		}
+
+		wordList.words = new List<Word>(savedWordList);
 
 		Debug.Log(string.Format("Complexity Achieved: {0} of {1}", highestOverlap, complexity * ((float)gridSize / 10)));
 		for (int i = 0; i < gridSize; i++)
@@ -261,7 +258,7 @@ public class LetterGrid : MonoBehaviour
 			{
 				continue;
 			}
-			int direction = Random.RandomRange(0, 8);
+			int direction = Random.Range(0, 8);
 			Vector2 dir = Vector2.zero;
 			switch (direction)
 			{
@@ -337,13 +334,13 @@ public class LetterGrid : MonoBehaviour
 		}
 	}
 
-	void ClearList()
+	void ClearList(List<List<string>> list)
 	{
-		for (int i = 0; i < tempLetters.Count; i++)
+		for (int i = 0; i < list.Count; i++)
 		{
-			for (int j = 0; j < tempLetters[i].Count; j++)
+			for (int j = 0; j < list[i].Count; j++)
 			{
-				gridLetters[i][j] = "";
+				list[i][j] = "";
 			}
 		}
 	}
@@ -364,5 +361,10 @@ public class LetterGrid : MonoBehaviour
 				}
 			}
 		}
+	}
+
+	private void OnGUI()
+	{
+		GUI.Label(new Rect(0, 0, Screen.width, Screen.height), log, style);
 	}
 }

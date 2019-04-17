@@ -8,10 +8,9 @@ public class Word
 	public string value;
 	public BoolVariable isFound;
 
-	public Word (string v, GameEvent updateEvent)
+	public void Init (GameEvent updateEvent)
 	{
 		isFound = ScriptableObject.CreateInstance<BoolVariable>().Init(updateEvent);
-		value = v;
 		isFound.State = false;
 	}
 }

@@ -5,20 +5,14 @@ using UnityEngine;
 [System.Serializable]
 public class Tile : MonoBehaviour
 {
-	public string letter;
-	public bool isSelected;
-	public bool isCorrect;
-	public TMPro.TextMeshPro textMesh;
+	private string letter;
+	private bool isSelected;
+	private bool isCorrect;
+	private TMPro.TextMeshPro textMesh;
 	private Collider2D collider;
 
-	public int xCoord;
-	public int yCoord;
-	// Start is called before the first frame update
-	void Awake()
-	{
-		collider = GetComponent<Collider2D>();
-		textMesh = GetComponentInChildren<TMPro.TextMeshPro>();
-	}
+	private int xCoord;
+	private int yCoord;
 
 	// Update is called once per frame
 	void Update()
@@ -29,6 +23,11 @@ public class Tile : MonoBehaviour
 	// Assign letter to display
 	public void SetTile (string ltr)
 	{
+		if(collider == null)
+		{
+			collider = GetComponent<Collider2D>();
+			textMesh = GetComponentInChildren<TMPro.TextMeshPro>();
+		}
 		letter = ltr;
 		textMesh.text = letter;
 	}
@@ -52,5 +51,10 @@ public class Tile : MonoBehaviour
 	{
 		xCoord = x;
 		yCoord = y;
+	}
+
+	public string GetLetter()
+	{
+		return letter;
 	}
 }

@@ -50,17 +50,17 @@ public class WordListDisplay : MonoBehaviour
 
 			if (wordList.words[i].isFound.State)
 			{
-				display.text += "<s>" + wordList.words[i].value + "</s>\n";
+				display.text += string.Format("<s color=#FF0000> {0} </s>\n", wordList.words[i].value);
 			}
 			else
 			{
 				if(showWords)
 				{
-					display.text += wordList.words[i].value + "\n";
+					display.text += string.Format(" {0} \n", wordList.words[i].value);
 				}
 				else
 				{
-					display.text += ReplaceAll(wordList.words[i].value, "_ ") + "\n";
+					display.text += string.Format(" {0} \n", ReplaceAll(wordList.words[i].value, "_ "));
 				}
 			}
 		}

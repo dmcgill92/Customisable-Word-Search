@@ -1,0 +1,56 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c327640fe61c98849babc2ce4d072430, type: 3}
+  m_Name: Camping
+  m_EditorClassIdentifier: 
+  theme: CAMPING
+  words:
+  - value: CAMPFIRE
+    isFound: {fileID: 0}
+  - value: TENT
+    isFound: {fileID: 0}
+  - value: CANTEEN
+    isFound: {fileID: 0}
+  - value: FISHING
+    isFound: {fileID: 0}
+  - value: HAT
+    isFound: {fileID: 0}
+  - value: MAP
+    isFound: {fileID: 0}
+  - value: LAKE
+    isFound: {fileID: 0}
+  - value: ROPE
+    isFound: {fileID: 0}
+  - value: HIKING
+    isFound: {fileID: 0}
+  - value: FLASHLIGHT
+    isFound: {fileID: 0}
+  - value: CANOE
+    isFound: {fileID: 0}
+  - value: SUNSCREEN
+    isFound: {fileID: 0}
+  - value: WILDLIFE
+    isFound: {fileID: 0}
+  - value: HAMMOCK
+    isFound: {fileID: 0}
+  - value: ADVENTURE
+    isFound: {fileID: 0}
+  - value: NATURE
+    isFound: {fileID: 0}
+  - value: TRAIL
+    isFound: {fileID: 0}
+  - value: COMPASS
+    isFound: {fileID: 0}
+  - value: BACKPACK
+    isFound: {fileID: 0}
+  - value: SWAG
+    isFound: {fileID: 0}

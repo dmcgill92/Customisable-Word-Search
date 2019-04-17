@@ -1,0 +1,56 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c327640fe61c98849babc2ce4d072430, type: 3}
+  m_Name: Halloween
+  m_EditorClassIdentifier: 
+  theme: Halloween
+  words:
+  - value: GHOST
+    isFound: {fileID: 0}
+  - value: SPIDER
+    isFound: {fileID: 0}
+  - value: CANDY
+    isFound: {fileID: 0}
+  - value: CROW
+    isFound: {fileID: 0}
+  - value: BLOOD
+    isFound: {fileID: 0}
+  - value: BROOM
+    isFound: {fileID: 0}
+  - value: PATCH
+    isFound: {fileID: 0}
+  - value: HOUSE
+    isFound: {fileID: 0}
+  - value: ORANGE
+    isFound: {fileID: 0}
+  - value: BATS
+    isFound: {fileID: 0}
+  - value: MASK
+    isFound: {fileID: 0}
+  - value: FANGS
+    isFound: {fileID: 0}
+  - value: APPLE
+    isFound: {fileID: 0}
+  - value: TRICK
+    isFound: {fileID: 0}
+  - value: PUMPKIN
+    isFound: {fileID: 0}
+  - value: NECK
+    isFound: {fileID: 0}
+  - value: PARTY
+    isFound: {fileID: 0}
+  - value: MUMMY
+    isFound: {fileID: 0}
+  - value: BOO
+    isFound: {fileID: 0}
+  - value: CAT
+    isFound: {fileID: 0}

@@ -2,8 +2,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Line : MonoBehaviour
+public class UIManager : MonoBehaviour
 {
+	[SerializeField]
+	private TMPro.TextMeshProUGUI themeDisplay;
+
+	[SerializeField]
+	private StringVariable theme;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -15,4 +21,9 @@ public class Line : MonoBehaviour
     {
         
     }
+
+	public void UpdateTheme()
+	{
+		themeDisplay.text = theme.Content;
+	}
 }

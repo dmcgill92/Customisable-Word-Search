@@ -9,8 +9,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e1a791898e80aa84eab9e97301e4f55a, type: 3}
-  m_Name: GridGenerated
+  m_Script: {fileID: 11500000, guid: 285691d0638f16c40bf1d437e514c9a6, type: 3}
+  m_Name: Theme
   m_EditorClassIdentifier: 
-  toggleEvent: {fileID: 0}
-  state: 0
+  toggleEvent: {fileID: 11400000, guid: 06013f5a61155b849a3e7507183a2cb9, type: 2}
+  initialValue: 
