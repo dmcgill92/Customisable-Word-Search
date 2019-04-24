@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using System.IO;
 
 public class LetterGrid : MonoBehaviour
@@ -10,7 +11,7 @@ public class LetterGrid : MonoBehaviour
 	[SerializeField]
 	private GameObject line;
 
-	[Range(5,12)]
+	[Range(5, 12)]
 	[SerializeField]
 	private int gridSize = 12;
 	[Range(1, 10)]
@@ -18,6 +19,7 @@ public class LetterGrid : MonoBehaviour
 	private int complexity = 4;
 	[SerializeField]
 	private BoolVariable isGenerated;
+	[SerializeField]
 	private List<List<Tile>> tiles = new List<List<Tile>>();
 	private List<List<string>> gridLetters = new List<List<string>>();
 	private List<List<string>> tempLetters = new List<List<string>>();
@@ -31,13 +33,11 @@ public class LetterGrid : MonoBehaviour
 	private List<Tile> curTiles = new List<Tile>();
 	private string curWord;
 
-	private Vector2 gridCentre = new Vector2(0.0f, -2.2f);
 	[SerializeField]
 	private FloatVariable spacing;
 	[SerializeField]
 	private FloatVariable diagSpacing;
 
-	private string log;
 	private GUIStyle style = new GUIStyle();
 
 	[SerializeField]
@@ -47,20 +47,21 @@ public class LetterGrid : MonoBehaviour
 
 	// Start is called before the first frame update
 	void Start()
-    {
+	{
 		style.fontSize = 92;
 		SetWordList();
 		GenerateGrid();
-    }
+		
+	}
 
 	void GenerateGrid()
 	{
 		float time = Time.realtimeSinceStartup;
 		CreateTiles();
 		AssignLettersToTiles();
-		FillInGrid();
 		isGenerated.State = true;
 		display.SetDisplay(wordList);
+		StartCoroutine(GetSpacing());
 		time = Time.realtimeSinceStartup - time;
 		Debug.Log("Execution time: " + time);
 	}
@@ -76,7 +77,7 @@ public class LetterGrid : MonoBehaviour
 
 	public void ShuffleList(List<string> arr)
 	{
-		for(int i = 0; i< arr.Count -1; i++)
+		for (int i = 0; i < arr.Count - 1; i++)
 		{
 			int r = Random.Range(0, i);
 			string tmp = arr[i];
@@ -87,7 +88,7 @@ public class LetterGrid : MonoBehaviour
 
 	public void SelectTiles(List<Tile> tiles)
 	{
-		if(curTiles.Count>0)
+		if (curTiles.Count > 0)
 		{
 			DeselectTiles();
 			curTiles.Clear();
@@ -106,28 +107,28 @@ public class LetterGrid : MonoBehaviour
 
 	public void DeselectTiles()
 	{
-		for(int i = 0; i < curTiles.Count; i++)
+		for (int i = 0; i < curTiles.Count; i++)
 		{
-			if(curTiles[i])
-			curTiles[i].Select(false);
+			if (curTiles[i])
+				curTiles[i].Select(false);
 		}
 	}
 
 	public void CheckWord()
 	{
 		List<Word> words = wordList.words;
-		for(int i = 0; i < words.Count; i++)
+		for (int i = 0; i < words.Count; i++)
 		{
 			Word word = words[i];
-			if(!word.isFound.State)
+			if (!word.isFound.State)
 			{
-				if(curWord == word.value)
+				if (curWord == word.value)
 				{
 					word.isFound.State = true;
-					for( int j = 0; j < curTiles.Count; j++)
-					{
-						curTiles[j].ToggleCorrectState();
-					}
+					//for (int j = 0; j < curTiles.Count; j++)
+					//{
+					//	curTiles[j].ToggleCorrectState();
+					//}
 					GameObject newLine = Instantiate(line, line.transform.parent, true);
 					newLine.name = "Line";
 					line.GetComponent<LineRenderer>().positionCount = 0;
@@ -140,49 +141,61 @@ public class LetterGrid : MonoBehaviour
 
 	void CreateTiles()
 	{
-		Vector3 screenEdge = Camera.main.ScreenToWorldPoint(Vector3.zero);
-		float dist = Mathf.Min(Mathf.Abs(screenEdge.x), Mathf.Abs(screenEdge.y));
-		float step = (2 * dist) / (gridSize + 1);
-		float offset = step * 0.5f;
-		float xMin = gridCentre.x - dist + step;
-		float yMin = gridCentre.y - dist + step;
-		float scale = 12/(float)gridSize;
-
-		LineRenderer lineRenderer = line.GetComponent<LineRenderer>();
-		lineRenderer.startWidth = 0.3f * scale;
-		lineRenderer.endWidth = line.GetComponent<LineRenderer>().startWidth;
-		lineRenderer.numCapVertices = 7 * (int)scale;
-
 		for (int i = 0; i < gridSize; i++)
 		{
 			List<Tile> tempList = new List<Tile>();
+			var row = new GameObject();
+			row.AddComponent<RectTransform>().SetParent(transform, false);
+			row.name = string.Format("Row {0}", i+1);
+			var layout = row.AddComponent<HorizontalLayoutGroup>();
+			layout.childControlHeight = true;
+			layout.childControlWidth = true;
+			layout.childForceExpandHeight = true;
+			layout.childForceExpandWidth = true;
+			layout.spacing = 5;
+
+			var element = row.AddComponent<LayoutElement>();
+			element.flexibleHeight = 1;
+			element.flexibleWidth = 1;
+
 			for (int j = 0; j < gridSize; j++)
 			{
-				
-				GameObject tileObj = Instantiate(tilePrefab, new Vector2(xMin + j * step, yMin + i * step), Quaternion.identity, transform);
+
+				GameObject tileObj = Instantiate(tilePrefab, row.transform, false);
 				int xCoord = j + 1;
 				int yCoord = gridSize - i;
 				tileObj.name = string.Format("Tile [{0},{1}]", xCoord, yCoord);
-				tileObj.transform.localScale *= scale;
+
 				Tile tile = tileObj.GetComponent<Tile>();
-				tile.SetCoords(xCoord, yCoord);
+				//tile.SetCoords(xCoord, yCoord);
 				tempList.Add(tile);
 			}
 			tiles.Add(tempList);
 		}
-		spacing.Number = step;
-		diagSpacing.Number = Vector2.Distance(new Vector2(0, step), new Vector2(step, 0));
+	}
+
+	public IEnumerator GetSpacing()
+	{
+		yield return new WaitForSeconds(0.3f);
+		Vector2 point1 = tiles[0][0].GetComponent<RectTransform>().rect.position;
+		Vector2 point2 = tiles[0][1].GetComponent<RectTransform>().rect.position;
+		point1 = tiles[0][0].GetComponent<RectTransform>().TransformPoint(point1);
+		point2 = tiles[0][1].GetComponent<RectTransform>().TransformPoint(point2);
+
+		float dist = point2.x - point1.x;
+		spacing.Number = dist;
+		diagSpacing.Number = Mathf.Sqrt(Mathf.Pow(dist, 2) + Mathf.Pow(dist, 2));
 	}
 
 	void AssignLettersToTiles()
 	{
 		List<Word> sortedWords = new List<Word>(wordList.words);
 		sortedWords.Sort(SortByLength);
-		for(int i = 0; i < gridSize; i++)
+		for (int i = 0; i < gridSize; i++)
 		{
 			List<string> tempList = new List<string>();
 			List<string> temp2List = new List<string>();
-			for ( int j = 0; j < gridSize; j++)
+			for (int j = 0; j < gridSize; j++)
 			{
 				tempList.Add(string.Empty);
 				temp2List.Add(string.Empty);
@@ -197,22 +210,22 @@ public class LetterGrid : MonoBehaviour
 		List<Word> initWordList = new List<Word>(wordList.words);
 		List<Word> savedWordList = new List<Word>(wordList.words);
 		float time = Time.realtimeSinceStartup;
-		while(totalOverlap < complexity * ((float)gridSize/10) && Time.realtimeSinceStartup - time < 1.0f)
+		while (totalOverlap < complexity * ((float)gridSize / 10) && Time.realtimeSinceStartup - time < 1.0f)
 		{
 			ClearList(tempLetters);
 			wordList.words = new List<Word>(initWordList);
 			totalOverlap = 0;
 			int overlap = 0;
-			for(int i = sortedWords.Count - 1; i >= 0; i--)
+			for (int i = sortedWords.Count - 1; i >= 0; i--)
 			{
 				Word word = sortedWords[i];
 				CheckGrid(word, out overlap);
 				totalOverlap += overlap;
 			}
-			Debug.Log(string.Format("Complexity: {0}", totalOverlap));
-			if(totalOverlap > highestOverlap)
+			//Debug.Log(string.Format("Complexity: {0}", totalOverlap));
+			if (totalOverlap > highestOverlap)
 			{
-				Debug.Log(string.Format("Highest Complexity: {0}", totalOverlap));
+				//Debug.Log(string.Format("Highest Complexity: {0}", totalOverlap));
 				for (int i = 0; i < gridSize; i++)
 				{
 					for (int j = 0; j < gridSize; j++)
@@ -234,6 +247,11 @@ public class LetterGrid : MonoBehaviour
 		{
 			for (int j = 0; j < gridSize; j++)
 			{
+				if(string.IsNullOrEmpty(gridLetters[i][j]))
+				{
+					FillInGrid(i, j);
+				}
+
 				tiles[i][j].SetTile(gridLetters[i][j]);
 			}
 		}
@@ -241,7 +259,7 @@ public class LetterGrid : MonoBehaviour
 
 	int SortByLength(Word a, Word b)
 	{
-		 return a.value.Length.CompareTo(b.value.Length);
+		return a.value.Length.CompareTo(b.value.Length);
 	}
 
 	void CheckGrid(Word word, out int overlap)
@@ -254,7 +272,7 @@ public class LetterGrid : MonoBehaviour
 			overlap = 0;
 			int length = word.value.Length;
 			Vector2 startPos = new Vector2(Random.Range(0, gridSize), Random.Range(0, gridSize));
-			if (!tempLetters[(int)startPos.x][(int)startPos.y].Equals(word.value[0].ToString()) && !string.IsNullOrEmpty(tempLetters[(int)startPos.x][(int)startPos.y]) )
+			if (!tempLetters[(int)startPos.x][(int)startPos.y].Equals(word.value[0].ToString()) && !string.IsNullOrEmpty(tempLetters[(int)startPos.x][(int)startPos.y]))
 			{
 				continue;
 			}
@@ -291,13 +309,13 @@ public class LetterGrid : MonoBehaviour
 			}
 
 			Vector2 tempVec = startPos + dir * length;
-			if(tempVec.x < gridSize && tempVec.x > 0 && tempVec.y < gridSize && tempVec.y > 0)
+			if (tempVec.x < gridSize && tempVec.x > 0 && tempVec.y < gridSize && tempVec.y > 0)
 			{
 				bool canFit = true;
-				for(int j = 1; j < length; j++)
+				for (int j = 1; j < length; j++)
 				{
 					Vector2 tilePos = startPos + dir * j;
-					if(tempLetters[(int)tilePos.x][(int)tilePos.y].Equals(word.value[j].ToString()) || string.IsNullOrEmpty(tempLetters[(int)tilePos.x][(int)tilePos.y]))
+					if (tempLetters[(int)tilePos.x][(int)tilePos.y].Equals(word.value[j].ToString()) || string.IsNullOrEmpty(tempLetters[(int)tilePos.x][(int)tilePos.y]))
 					{
 						continue;
 					}
@@ -308,12 +326,12 @@ public class LetterGrid : MonoBehaviour
 					}
 				}
 
-				if(canFit)
+				if (canFit)
 				{
 					for (int j = 0; j < length; j++)
 					{
 						Vector2 tilePos = startPos + dir * j;
-						if(tempLetters[(int)tilePos.x][(int)tilePos.y].Equals(word.value[j].ToString()))
+						if (tempLetters[(int)tilePos.x][(int)tilePos.y].Equals(word.value[j].ToString()))
 						{
 							overlap++;
 						}
@@ -328,7 +346,7 @@ public class LetterGrid : MonoBehaviour
 			i++;
 		}
 
-		if(i == 100)
+		if (i == 100)
 		{
 			wordList.words.Remove(word);
 		}
@@ -345,26 +363,12 @@ public class LetterGrid : MonoBehaviour
 		}
 	}
 
-	void FillInGrid()
+	void FillInGrid(int x, int y)
 	{
 		string alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-		for (int i = 0; i < gridSize; i++)
-		{
-			for (int j = 0; j < gridSize; j++)
-			{
-				if(string.IsNullOrEmpty(gridLetters[i][j]))
-				{
-					int rand = Random.Range(0, alphabet.Length);
-					string letter = alphabet[rand].ToString();
-					gridLetters[i][j] = letter;
-					tiles[i][j].SetTile(letter);
-				}
-			}
-		}
-	}
 
-	private void OnGUI()
-	{
-		GUI.Label(new Rect(0, 0, Screen.width, Screen.height), log, style);
+		int rand = Random.Range(0, alphabet.Length);
+		string letter = alphabet[rand].ToString();
+		gridLetters[x][y] = letter;	
 	}
 }

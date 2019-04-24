@@ -16,10 +16,11 @@ public class WordListDisplay : MonoBehaviour
 
 	public void SetDisplay(WordList words)
 	{
-		Component[] columns = GetComponentsInChildren<TMPro.TextMeshProUGUI>();
+		RectTransform child = GetComponentInChildren<RectTransform>();
+		Component[] columns = child.GetComponentsInChildren<TMPro.TextMeshProUGUI>();
 		foreach (TMPro.TextMeshProUGUI column in columns)
 		{
-			if (column.rectTransform.anchoredPosition.x < 0.0f)
+			if (column.rectTransform.pivot.x == 1.0f)
 			{
 				displayLeft = column;
 			}

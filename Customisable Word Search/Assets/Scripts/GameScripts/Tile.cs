@@ -7,12 +7,12 @@ public class Tile : MonoBehaviour
 {
 	private string letter;
 	private bool isSelected;
-	private bool isCorrect;
-	private TMPro.TextMeshPro textMesh;
-	private Collider2D collider;
+	private TMPro.TextMeshProUGUI textMesh;
+	private Collider2D col;
 
-	private int xCoord;
-	private int yCoord;
+	//private int xCoord;
+	//private int yCoord;
+	public float width;
 
 	// Update is called once per frame
 	void Update()
@@ -23,12 +23,16 @@ public class Tile : MonoBehaviour
 	// Assign letter to display
 	public void SetTile (string ltr)
 	{
-		if(collider == null)
+		if(col == null)
 		{
-			collider = GetComponent<Collider2D>();
-			textMesh = GetComponentInChildren<TMPro.TextMeshPro>();
+			col = GetComponent<Collider2D>();
+			textMesh = GetComponentInChildren<TMPro.TextMeshProUGUI>();
 		}
 		letter = ltr;
+		if(textMesh == null)
+		{
+			Debug.Log("Broken");
+		}
 		textMesh.text = letter;
 	}
 
@@ -42,16 +46,16 @@ public class Tile : MonoBehaviour
 		isSelected = state;
 	}
 
-	public void ToggleCorrectState()
-	{
-		isCorrect = true;
-	}
+	//public void ToggleCorrectState()
+	//{
+	//	isCorrect = true;
+	//}
 
-	public void SetCoords(int x, int y)
-	{
-		xCoord = x;
-		yCoord = y;
-	}
+	//public void SetCoords(int x, int y)
+	//{
+	//	xCoord = x;
+	//	yCoord = y;
+	//}
 
 	public string GetLetter()
 	{

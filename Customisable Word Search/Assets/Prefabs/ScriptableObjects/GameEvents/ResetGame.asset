@@ -9,8 +9,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e1a791898e80aa84eab9e97301e4f55a, type: 3}
-  m_Name: GridGenerated
+  m_Script: {fileID: 11500000, guid: a7546ab68c423694aaa27d783bdf7747, type: 3}
+  m_Name: ResetGame
   m_EditorClassIdentifier: 
-  toggleEvent: {fileID: 11400000, guid: f8bf17ae578d95243ac145276e29a01a, type: 2}
-  initialState: 0

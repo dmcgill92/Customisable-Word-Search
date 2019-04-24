@@ -13,7 +13,7 @@ public class FloatVariable : ScriptableObject, ISerializationCallbackReceiver
 	private float initialValue;
 
 	[NonSerialized]
-	public float number;
+	private float number;
 
 	public float Number
 	{
