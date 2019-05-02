@@ -103,11 +103,9 @@ public class InputManager : MonoBehaviour
 				step = (float)i / 1 * roundedDistance;
 			}
 			Vector2 point = startPos + (line.normalized * step);
-			Debug.Log("checking for tile");
 			Tile tile = uiManager.CheckForTile(point);
 			if(tile)
 			{
-				Debug.Log("Found tile");
 				tiles.Add(tile);
 				endPoint = point;
 				endPoint.z = 90;

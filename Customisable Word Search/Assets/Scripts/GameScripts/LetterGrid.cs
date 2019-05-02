@@ -9,13 +9,9 @@ public class LetterGrid : MonoBehaviour
 	[SerializeField]
 	private GameObject tilePrefab;
 	[SerializeField]
-	private GameObject line;
+	private GameObject originalLine;
 
-	[Range(5, 12)]
-	[SerializeField]
 	private int gridSize = 12;
-	[Range(1, 10)]
-	[SerializeField]
 	private int complexity = 4;
 	[SerializeField]
 	private BoolVariable isGenerated;
@@ -38,41 +34,57 @@ public class LetterGrid : MonoBehaviour
 	[SerializeField]
 	private FloatVariable diagSpacing;
 
-	private GUIStyle style = new GUIStyle();
-
 	[SerializeField]
 	private StringVariable theme;
-	[SerializeField]
-	private List<WordList> wordSets = new List<WordList>();
 
 	// Start is called before the first frame update
 	void Start()
 	{
-		style.fontSize = 92;
-		SetWordList();
-		GenerateGrid();
 		
 	}
 
-	void GenerateGrid()
+	public void GenerateGrid( WordList wordList, int complexity, int gridSize, bool showWords)
 	{
+		this.wordList = Instantiate(wordList).Init(updateEvent);
+		theme.Content = this.wordList.theme;
+		this.complexity = complexity;
+		this.gridSize = gridSize;
 		float time = Time.realtimeSinceStartup;
 		CreateTiles();
 		AssignLettersToTiles();
 		isGenerated.State = true;
-		display.SetDisplay(wordList);
+		display.SetDisplay(this.wordList, showWords);
 		StartCoroutine(GetSpacing());
 		time = Time.realtimeSinceStartup - time;
 		Debug.Log("Execution time: " + time);
 	}
 
-	void SetWordList()
+	public void ClearGrid()
 	{
-		int rand = Random.Range(0, wordSets.Count);
+		wordList = null;
+		theme.Content = string.Empty;
+		complexity = 0;
+		gridSize = 0;
+		display.ClearDisplay();
+		isGenerated.State = false;
+		foreach (Transform child in transform)
+		{
+			Destroy(child.gameObject);
+		}
 
-		// Pass word list to be displayed
-		wordList = Instantiate(wordSets[rand]).Init(updateEvent);
-		theme.Content = wordList.theme;
+		foreach ( Transform line in originalLine.transform.parent)
+		{
+			if(line != originalLine.transform)
+			{
+				Destroy(line.gameObject);
+			}
+		}
+
+		gridLetters.Clear();
+		tempLetters.Clear();
+		tiles.Clear();
+		curTiles.Clear();
+		curWord = string.Empty;
 	}
 
 	public void ShuffleList(List<string> arr)
@@ -129,14 +141,14 @@ public class LetterGrid : MonoBehaviour
 					//{
 					//	curTiles[j].ToggleCorrectState();
 					//}
-					GameObject newLine = Instantiate(line, line.transform.parent, true);
+					GameObject newLine = Instantiate(originalLine, originalLine.transform.parent, true);
 					newLine.name = "Line";
-					line.GetComponent<LineRenderer>().positionCount = 0;
+					originalLine.GetComponent<LineRenderer>().positionCount = 0;
 					return;
 				}
 			}
 		}
-		line.GetComponent<LineRenderer>().positionCount = 0;
+		originalLine.GetComponent<LineRenderer>().positionCount = 0;
 	}
 
 	void CreateTiles()
@@ -176,7 +188,7 @@ public class LetterGrid : MonoBehaviour
 
 	public IEnumerator GetSpacing()
 	{
-		yield return new WaitForSeconds(0.3f);
+		yield return new WaitForSeconds(0.1f);
 		Vector2 point1 = tiles[0][0].GetComponent<RectTransform>().rect.position;
 		Vector2 point2 = tiles[0][1].GetComponent<RectTransform>().rect.position;
 		point1 = tiles[0][0].GetComponent<RectTransform>().TransformPoint(point1);

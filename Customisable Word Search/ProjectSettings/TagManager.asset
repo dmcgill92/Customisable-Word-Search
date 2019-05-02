@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Tile
   - Button
+  - Input
   layers:
   - Default
   - TransparentFX

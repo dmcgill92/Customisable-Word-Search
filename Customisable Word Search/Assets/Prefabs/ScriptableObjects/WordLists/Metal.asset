@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c327640fe61c98849babc2ce4d072430, type: 3}
   m_Name: Metal
   m_EditorClassIdentifier: 
-  theme: METAL
+  theme: Metal
   words:
   - value: IRON
     isFound: {fileID: 0}

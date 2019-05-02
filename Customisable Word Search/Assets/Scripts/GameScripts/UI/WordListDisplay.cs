@@ -14,7 +14,7 @@ public class WordListDisplay : MonoBehaviour
 	[SerializeField]
 	private TMPro.TextMeshProUGUI displayRight;
 
-	public void SetDisplay(WordList words)
+	public void SetDisplay(WordList words, bool showWords)
 	{
 		RectTransform child = GetComponentInChildren<RectTransform>();
 		Component[] columns = child.GetComponentsInChildren<TMPro.TextMeshProUGUI>();
@@ -29,6 +29,7 @@ public class WordListDisplay : MonoBehaviour
 				displayRight = column;
 			}
 		}
+		this.showWords = showWords;
 		wordList = words;
 		UpdateDisplay();
 	}
@@ -65,6 +66,13 @@ public class WordListDisplay : MonoBehaviour
 				}
 			}
 		}
+	}
+
+	public void ClearDisplay()
+	{
+		wordList = null;
+		displayLeft.text = string.Empty;
+		displayRight.text = string.Empty;
 	}
 
 	public string ReplaceAll(string input, string target)

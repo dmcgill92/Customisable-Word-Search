@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c327640fe61c98849babc2ce4d072430, type: 3}
   m_Name: Fruit
   m_EditorClassIdentifier: 
-  theme: FRUIT
+  theme: Fruit
   words:
   - value: APPLE
     isFound: {fileID: 0}
