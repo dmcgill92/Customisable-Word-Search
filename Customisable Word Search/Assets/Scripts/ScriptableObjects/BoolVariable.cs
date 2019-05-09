@@ -13,7 +13,7 @@ public class BoolVariable : ScriptableObject, ISerializationCallbackReceiver
 	private bool initialState;
 
 	[NonSerialized]
-	public bool state;
+	private bool state;
 
 	public bool State
 	{
@@ -31,6 +31,11 @@ public class BoolVariable : ScriptableObject, ISerializationCallbackReceiver
 				toggleEvent.Raise();
 			}
 		}
+	}
+
+	public GameEvent GetToggleEvent()
+	{
+		return toggleEvent;
 	}
 
 	public void OnAfterDeserialize()

@@ -10,47 +10,47 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c327640fe61c98849babc2ce4d072430, type: 3}
-  m_Name: Halloween
+  m_Name: Colours
   m_EditorClassIdentifier: 
-  theme: Halloween
+  theme: Colours
   words:
-  - value: GHOST
+  - value: BLACK
     isFound: {fileID: 0}
-  - value: SPIDER
+  - value: BLUE
     isFound: {fileID: 0}
-  - value: CANDY
+  - value: AQUA
     isFound: {fileID: 0}
-  - value: CROW
+  - value: MAROON
     isFound: {fileID: 0}
-  - value: BLOOD
+  - value: NAVY
     isFound: {fileID: 0}
-  - value: BROOM
+  - value: MAGENTA
     isFound: {fileID: 0}
-  - value: GHOUL
+  - value: TURQUOISE
     isFound: {fileID: 0}
-  - value: WEREWOLF
+  - value: PINK
     isFound: {fileID: 0}
-  - value: SKELETON
+  - value: IVORY
     isFound: {fileID: 0}
-  - value: BATS
+  - value: CERULEAN
     isFound: {fileID: 0}
-  - value: COSTUME
+  - value: LAVENDER
     isFound: {fileID: 0}
-  - value: FANGS
+  - value: KHAKI
     isFound: {fileID: 0}
-  - value: APPLE
+  - value: CHARTREUSE
     isFound: {fileID: 0}
-  - value: TRICK
+  - value: SILVER
     isFound: {fileID: 0}
-  - value: PUMPKIN
+  - value: TEAL
     isFound: {fileID: 0}
-  - value: HAUNT
+  - value: GREEN
     isFound: {fileID: 0}
-  - value: PARTY
+  - value: EMERALD
     isFound: {fileID: 0}
-  - value: MUMMY
+  - value: VIOLET
     isFound: {fileID: 0}
-  - value: BOO
+  - value: SCARLET
     isFound: {fileID: 0}
-  - value: CAT
+  - value: TAN
     isFound: {fileID: 0}

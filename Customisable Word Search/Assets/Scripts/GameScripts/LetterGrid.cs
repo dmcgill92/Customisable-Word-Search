@@ -7,6 +7,8 @@ using System.IO;
 public class LetterGrid : MonoBehaviour
 {
 	[SerializeField]
+	private GameManager gameManager;
+	[SerializeField]
 	private GameObject tilePrefab;
 	[SerializeField]
 	private GameObject originalLine;
@@ -28,6 +30,7 @@ public class LetterGrid : MonoBehaviour
 
 	private List<Tile> curTiles = new List<Tile>();
 	private string curWord;
+	private int foundWords;
 
 	[SerializeField]
 	private FloatVariable spacing;
@@ -37,10 +40,13 @@ public class LetterGrid : MonoBehaviour
 	[SerializeField]
 	private StringVariable theme;
 
+	[SerializeField]
+	private UIManager ui;
+
 	// Start is called before the first frame update
 	void Start()
 	{
-		
+		gameManager = Camera.main.GetComponent<GameManager>();
 	}
 
 	public void GenerateGrid( WordList wordList, int complexity, int gridSize, bool showWords)
@@ -57,6 +63,7 @@ public class LetterGrid : MonoBehaviour
 		StartCoroutine(GetSpacing());
 		time = Time.realtimeSinceStartup - time;
 		Debug.Log("Execution time: " + time);
+		foundWords = 0;
 	}
 
 	public void ClearGrid()
@@ -85,6 +92,26 @@ public class LetterGrid : MonoBehaviour
 		tiles.Clear();
 		curTiles.Clear();
 		curWord = string.Empty;
+	}
+
+	public void RestartGrid()
+	{
+		foreach(Word word in wordList.words)
+		{
+			word.isFound.State = false;
+		}
+
+		foreach (Transform line in originalLine.transform.parent)
+		{
+			if (line != originalLine.transform)
+			{
+				Destroy(line.gameObject);
+			}
+		}
+		curTiles.Clear();
+		curWord = string.Empty;
+		foundWords = 0;
+		display.UpdateDisplay();
 	}
 
 	public void ShuffleList(List<string> arr)
@@ -137,18 +164,22 @@ public class LetterGrid : MonoBehaviour
 				if (curWord == word.value)
 				{
 					word.isFound.State = true;
-					//for (int j = 0; j < curTiles.Count; j++)
-					//{
-					//	curTiles[j].ToggleCorrectState();
-					//}
 					GameObject newLine = Instantiate(originalLine, originalLine.transform.parent, true);
 					newLine.name = "Line";
 					originalLine.GetComponent<LineRenderer>().positionCount = 0;
+					gameManager.PlayWordSound(true);
+					foundWords++;
+					if(foundWords == wordList.words.Count)
+					{
+						gameManager.GridFinished();
+						
+					}
 					return;
 				}
 			}
 		}
 		originalLine.GetComponent<LineRenderer>().positionCount = 0;
+		gameManager.PlayWordSound(false);
 	}
 
 	void CreateTiles()

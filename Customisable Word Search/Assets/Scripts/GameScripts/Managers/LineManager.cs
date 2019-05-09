@@ -2,8 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class InputManager : MonoBehaviour
+public class LineManager : MonoBehaviour
 {
+	private GameManager gameManager;
 	[SerializeField]
 	private LetterGrid grid;
 	[SerializeField]
@@ -24,6 +25,7 @@ public class InputManager : MonoBehaviour
 	// Start is called before the first frame update
 	void Awake()
 	{
+		gameManager = gameObject.GetComponent<GameManager>();
 		availableColors = new List<Color>(lineColors);
 	}
 

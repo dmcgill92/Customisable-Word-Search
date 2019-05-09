@@ -9,18 +9,28 @@ public class ToggleImage : MonoBehaviour
 	private Sprite onSprite;
 	[SerializeField]
 	private Sprite offSprite;
-	private bool toggle = true;
+	[HideInInspector]
+	public bool toggle = true;
 	private Image image;
+	[SerializeField]
+	private BoolVariable condition;
 
     // Start is called before the first frame update
     void Start()
     {
-		image = GetComponent<Image>();
-    }
+		if (image == null)
+		{
+			image = GetComponent<Image>();
+		}
+	}
 
 	public void Toggle()
 	{
-		toggle = !toggle;
+		if(image == null)
+		{
+			image = GetComponent<Image>();
+		}
+		toggle = condition.State;
 		if (toggle)
 			image.sprite = onSprite;
 		else

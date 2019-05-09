@@ -10,47 +10,47 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c327640fe61c98849babc2ce4d072430, type: 3}
-  m_Name: Halloween
+  m_Name: School
   m_EditorClassIdentifier: 
-  theme: Halloween
+  theme: School
   words:
-  - value: GHOST
+  - value: TEACHER
     isFound: {fileID: 0}
-  - value: SPIDER
+  - value: PROJECT
     isFound: {fileID: 0}
-  - value: CANDY
+  - value: MATH
     isFound: {fileID: 0}
-  - value: CROW
+  - value: BOOK
     isFound: {fileID: 0}
-  - value: BLOOD
+  - value: GLUESTICK
     isFound: {fileID: 0}
-  - value: BROOM
+  - value: HISTORY
     isFound: {fileID: 0}
-  - value: GHOUL
+  - value: SCIENCE
     isFound: {fileID: 0}
-  - value: WEREWOLF
+  - value: DESK
     isFound: {fileID: 0}
-  - value: SKELETON
+  - value: EXAM
     isFound: {fileID: 0}
-  - value: BATS
+  - value: BACKPACK
     isFound: {fileID: 0}
-  - value: COSTUME
+  - value: ATLAS
     isFound: {fileID: 0}
-  - value: FANGS
+  - value: QUIZ
     isFound: {fileID: 0}
-  - value: APPLE
+  - value: RECESS
     isFound: {fileID: 0}
-  - value: TRICK
+  - value: PRINCIPAL
     isFound: {fileID: 0}
-  - value: PUMPKIN
+  - value: STUDENT
     isFound: {fileID: 0}
-  - value: HAUNT
+  - value: SCISSORS
     isFound: {fileID: 0}
-  - value: PARTY
+  - value: GRADES
     isFound: {fileID: 0}
-  - value: MUMMY
+  - value: LIBRARY
     isFound: {fileID: 0}
-  - value: BOO
+  - value: TEST
     isFound: {fileID: 0}
-  - value: CAT
+  - value: EDUCATION
     isFound: {fileID: 0}

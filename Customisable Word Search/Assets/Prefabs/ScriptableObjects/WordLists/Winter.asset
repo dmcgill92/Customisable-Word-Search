@@ -10,47 +10,47 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c327640fe61c98849babc2ce4d072430, type: 3}
-  m_Name: Halloween
+  m_Name: Winter
   m_EditorClassIdentifier: 
-  theme: Halloween
+  theme: Winter
   words:
-  - value: GHOST
+  - value: EARMUFFS
     isFound: {fileID: 0}
-  - value: SPIDER
+  - value: SLED
     isFound: {fileID: 0}
-  - value: CANDY
+  - value: COAT
     isFound: {fileID: 0}
-  - value: CROW
+  - value: SNOW
     isFound: {fileID: 0}
-  - value: BLOOD
+  - value: FIREPLACE
     isFound: {fileID: 0}
-  - value: BROOM
+  - value: BLANKET
     isFound: {fileID: 0}
-  - value: GHOUL
+  - value: HEATER
     isFound: {fileID: 0}
-  - value: WEREWOLF
+  - value: ICICLE
     isFound: {fileID: 0}
-  - value: SKELETON
+  - value: MITTENS
     isFound: {fileID: 0}
-  - value: BATS
+  - value: POLAR
     isFound: {fileID: 0}
-  - value: COSTUME
+  - value: ARCTIC
     isFound: {fileID: 0}
-  - value: FANGS
+  - value: SCARF
     isFound: {fileID: 0}
-  - value: APPLE
+  - value: SWEATER
     isFound: {fileID: 0}
-  - value: TRICK
+  - value: GLOVES
     isFound: {fileID: 0}
-  - value: PUMPKIN
+  - value: BLIZZARD
     isFound: {fileID: 0}
-  - value: HAUNT
+  - value: PLOW
     isFound: {fileID: 0}
-  - value: PARTY
+  - value: SNIFFLE
     isFound: {fileID: 0}
-  - value: MUMMY
+  - value: FROZEN
     isFound: {fileID: 0}
-  - value: BOO
+  - value: JACKET
     isFound: {fileID: 0}
-  - value: CAT
+  - value: FLU
     isFound: {fileID: 0}

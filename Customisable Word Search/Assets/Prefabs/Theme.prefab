@@ -172,6 +172,8 @@ GameObject:
   - component: {fileID: 8322418795955386305}
   - component: {fileID: 4341532710438570760}
   - component: {fileID: 5256951049655277079}
+  - component: {fileID: 7034292924376261162}
+  - component: {fileID: 6615617458752960485}
   m_Layer: 5
   m_Name: Theme
   m_TagString: Untagged
@@ -278,3 +280,29 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
+--- !u!114 &7034292924376261162
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8341512878323324509}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b52b0d34ea6cf8542868faabe458dc52, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  audioClip: {fileID: 8300000, guid: 88cb084f0a143aa499af02a1763396ca, type: 3}
+  volume: 0.5
+--- !u!114 &6615617458752960485
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8341512878323324509}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: be894163cdd06414fbec75c5f444799b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

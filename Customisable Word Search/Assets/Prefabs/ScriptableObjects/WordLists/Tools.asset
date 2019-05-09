@@ -10,47 +10,47 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c327640fe61c98849babc2ce4d072430, type: 3}
-  m_Name: Halloween
+  m_Name: Tools
   m_EditorClassIdentifier: 
-  theme: Halloween
+  theme: Tools
   words:
-  - value: GHOST
+  - value: AXE
     isFound: {fileID: 0}
-  - value: SPIDER
+  - value: SCREWDRIVER
     isFound: {fileID: 0}
-  - value: CANDY
+  - value: HAMMER
     isFound: {fileID: 0}
-  - value: CROW
+  - value: CHISEL
     isFound: {fileID: 0}
-  - value: BLOOD
+  - value: WRENCH
     isFound: {fileID: 0}
-  - value: BROOM
+  - value: MALLET
     isFound: {fileID: 0}
-  - value: GHOUL
+  - value: KNIFE
     isFound: {fileID: 0}
-  - value: WEREWOLF
+  - value: NAIL
     isFound: {fileID: 0}
-  - value: SKELETON
+  - value: DRILL
     isFound: {fileID: 0}
-  - value: BATS
+  - value: ROPE
     isFound: {fileID: 0}
-  - value: COSTUME
+  - value: BOLT
     isFound: {fileID: 0}
-  - value: FANGS
+  - value: SANDER
     isFound: {fileID: 0}
-  - value: APPLE
+  - value: LADDER
     isFound: {fileID: 0}
-  - value: TRICK
+  - value: PITCHFORK
     isFound: {fileID: 0}
-  - value: PUMPKIN
+  - value: HACKSAW
     isFound: {fileID: 0}
-  - value: HAUNT
+  - value: CLAMP
     isFound: {fileID: 0}
-  - value: PARTY
+  - value: CROWBAR
     isFound: {fileID: 0}
-  - value: MUMMY
+  - value: VICE
     isFound: {fileID: 0}
-  - value: BOO
+  - value: PLIERS
     isFound: {fileID: 0}
-  - value: CAT
+  - value: GRINDER
     isFound: {fileID: 0}

@@ -10,47 +10,47 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c327640fe61c98849babc2ce4d072430, type: 3}
-  m_Name: Halloween
+  m_Name: Mammals
   m_EditorClassIdentifier: 
-  theme: Halloween
+  theme: Mammals
   words:
-  - value: GHOST
+  - value: COW
     isFound: {fileID: 0}
-  - value: SPIDER
+  - value: BUFFALO
     isFound: {fileID: 0}
-  - value: CANDY
+  - value: DOLPHIN
     isFound: {fileID: 0}
-  - value: CROW
+  - value: FOX
     isFound: {fileID: 0}
-  - value: BLOOD
+  - value: ELEPHANT
     isFound: {fileID: 0}
-  - value: BROOM
+  - value: DONKEY
     isFound: {fileID: 0}
-  - value: GHOUL
+  - value: JAGUAR
     isFound: {fileID: 0}
-  - value: WEREWOLF
+  - value: HIPPO
     isFound: {fileID: 0}
-  - value: SKELETON
+  - value: OTTER
     isFound: {fileID: 0}
-  - value: BATS
+  - value: GORILLA
     isFound: {fileID: 0}
-  - value: COSTUME
+  - value: DEER
     isFound: {fileID: 0}
-  - value: FANGS
+  - value: SHEEP
     isFound: {fileID: 0}
-  - value: APPLE
+  - value: ZEBRA
     isFound: {fileID: 0}
-  - value: TRICK
+  - value: SQUIRREL
     isFound: {fileID: 0}
-  - value: PUMPKIN
+  - value: RHINO
     isFound: {fileID: 0}
-  - value: HAUNT
+  - value: LION
     isFound: {fileID: 0}
-  - value: PARTY
+  - value: GIRAFFE
     isFound: {fileID: 0}
-  - value: MUMMY
+  - value: CHEETAH
     isFound: {fileID: 0}
-  - value: BOO
+  - value: ARMADILLO
     isFound: {fileID: 0}
-  - value: CAT
+  - value: WARTHOG
     isFound: {fileID: 0}
