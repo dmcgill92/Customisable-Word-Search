@@ -20,7 +20,6 @@ public class UIManager : MonoBehaviour
 	private EventSystem eventSystem;
 
 	private enum InputState { Start, Hold, End, Null };
-	[SerializeField]
 	private InputState state = InputState.Null;
 
 	private enum UIScene { Main, Pause, Game, End };
@@ -41,7 +40,6 @@ public class UIManager : MonoBehaviour
 	private List<Transform> customSettings = new List<Transform>();
 
 	private enum Difficulty { Null, Easy, Medium, Hard, Custom };
-	[SerializeField]
 	private Difficulty difficulty;
 
 	private bool isDrawing;
@@ -52,7 +50,8 @@ public class UIManager : MonoBehaviour
 	[SerializeField]
 	private GameObject themeListParent;
 	private List<GameObject> themeButtons = new List<GameObject>();
-	public List<Button> submitButtons = new List<Button>();
+	[SerializeField]
+	private List<Button> submitButtons = new List<Button>();
 
 	[SerializeField]
 	private List<WordList> wordSets = new List<WordList>();
@@ -64,17 +63,17 @@ public class UIManager : MonoBehaviour
 	private int gridSize;
 	private bool showWords;
 
-	public IntVariable coinTotal;
+	private int gridScore;
+	[SerializeField]
+	private IntVariable coinTotal;
 	[SerializeField]
 	private List<TMPro.TextMeshProUGUI> coinDisplays = new List<TMPro.TextMeshProUGUI>();
+
 	private float timer;
-	public FloatVariable elapsedTime;
-	public float time;
+	[SerializeField]
+	private FloatVariable elapsedTime;
 	[SerializeField]
 	private List<TMPro.TextMeshProUGUI> timeDisplays = new List<TMPro.TextMeshProUGUI>();
-
-	[SerializeField]
-	private int gridScore;
 
 	[SerializeField]
 	private BoolVariable hasChosenTheme;
@@ -86,6 +85,11 @@ public class UIManager : MonoBehaviour
 		ChangeUI((int)scene);
 		eventSystem = GetComponent<EventSystem>();
 		lineManager = Camera.main.GetComponent<LineManager>();
+		if (!PlayerPrefs.HasKey("Coins"))
+		{
+			PlayerPrefs.SetInt("Coins", 100);
+		}
+		coinTotal.Number = PlayerPrefs.GetInt("Coins");
 		UpdateCoinDisplay(false);
 		SetThemeList();
 	}
@@ -100,14 +104,12 @@ public class UIManager : MonoBehaviour
 	{
 		elapsedTime.Number = 0.0f;
 		timer = Time.realtimeSinceStartup;
-		time = elapsedTime.Number;
 	}
 
 	public void PauseTimer()
 	{
 		timer = Time.realtimeSinceStartup - timer;
 		elapsedTime.Number += timer;
-		time = elapsedTime.Number;
 		UpdateTimeDisplay();
 	}
 
@@ -115,7 +117,6 @@ public class UIManager : MonoBehaviour
 	public void ContinueTimer()
 	{
 		timer = Time.realtimeSinceStartup;
-		time = elapsedTime.Number;
 	}
 
 	public void UpdateTimeDisplay()
@@ -132,11 +133,6 @@ public class UIManager : MonoBehaviour
 
 	public void UpdateCoinDisplay( bool isEnd)
 	{
-		if(!PlayerPrefs.HasKey("Coins"))
-		{
-			PlayerPrefs.SetInt("Coins", 100);
-		}
-		coinTotal.Number = PlayerPrefs.GetInt("Coins");
 		if(isEnd)
 		{
 			coinTotal.Number += gridScore;

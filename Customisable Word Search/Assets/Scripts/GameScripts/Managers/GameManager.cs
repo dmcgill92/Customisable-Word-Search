@@ -16,6 +16,12 @@ public class GameManager : MonoBehaviour
 	[SerializeField]
 	private LetterGrid letterGrid;
 
+	[SerializeField]
+	private HintSystem hintSystem;
+
+	[SerializeField]
+	private ConnectionManager connectionManager;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -46,6 +52,17 @@ public class GameManager : MonoBehaviour
 		uiManager.ChangeMenu(0);
 		uiManager.ResetTheme();
 		uiManager.ResetDifficulty();
+		hintSystem.Reset();
 		letterGrid.ClearGrid();
+	}
+
+	public void SendLocationsToHintSystem(Dictionary<Word, Vector2> locations, WordList wordList)
+	{
+		hintSystem.SetLetterLocations(locations, wordList);
+	}
+
+	public void CheckConnection()
+	{
+		connectionManager.StartConnectionCheck();
 	}
 }

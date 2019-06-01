@@ -43,6 +43,9 @@ public class LetterGrid : MonoBehaviour
 	[SerializeField]
 	private UIManager ui;
 
+	[SerializeField]
+	private Dictionary<Word, Vector2> firstLetterLocations = new Dictionary<Word, Vector2>();
+
 	// Start is called before the first frame update
 	void Start()
 	{
@@ -101,6 +104,7 @@ public class LetterGrid : MonoBehaviour
 			word.isFound.State = false;
 		}
 
+		StopAllHighlightedTiles();
 		foreach (Transform line in originalLine.transform.parent)
 		{
 			if (line != originalLine.transform)
@@ -112,6 +116,17 @@ public class LetterGrid : MonoBehaviour
 		curWord = string.Empty;
 		foundWords = 0;
 		display.UpdateDisplay();
+	}
+
+	void StopAllHighlightedTiles()
+	{
+		for (int i = 0; i < tiles.Count; i++)
+		{
+			for (int j = 0; j < tiles[i].Count; j++)
+			{
+				tiles[i][j].StopHighlight();
+			}
+		}
 	}
 
 	public void ShuffleList(List<string> arr)
@@ -210,7 +225,6 @@ public class LetterGrid : MonoBehaviour
 				tileObj.name = string.Format("Tile [{0},{1}]", xCoord, yCoord);
 
 				Tile tile = tileObj.GetComponent<Tile>();
-				//tile.SetCoords(xCoord, yCoord);
 				tempList.Add(tile);
 			}
 			tiles.Add(tempList);
@@ -252,10 +266,12 @@ public class LetterGrid : MonoBehaviour
 
 		List<Word> initWordList = new List<Word>(wordList.words);
 		List<Word> savedWordList = new List<Word>(wordList.words);
+		Dictionary<Word, Vector2> savedLetterLocations = new Dictionary<Word, Vector2>();
 		float time = Time.realtimeSinceStartup;
 		while (totalOverlap < complexity * ((float)gridSize / 10) && Time.realtimeSinceStartup - time < 1.0f)
 		{
 			ClearList(tempLetters);
+			firstLetterLocations.Clear();
 			wordList.words = new List<Word>(initWordList);
 			totalOverlap = 0;
 			int overlap = 0;
@@ -278,12 +294,14 @@ public class LetterGrid : MonoBehaviour
 				}
 
 				savedWordList = new List<Word>(wordList.words);
+				savedLetterLocations = new Dictionary<Word, Vector2>(firstLetterLocations);
 				ClearList(tempLetters);
 				highestOverlap = totalOverlap;
 			}
 		}
-
+		firstLetterLocations = new Dictionary<Word, Vector2>(savedLetterLocations);
 		wordList.words = new List<Word>(savedWordList);
+		gameManager.SendLocationsToHintSystem(firstLetterLocations, wordList);
 
 		Debug.Log(string.Format("Complexity Achieved: {0} of {1}", highestOverlap, complexity * ((float)gridSize / 10)));
 		for (int i = 0; i < gridSize; i++)
@@ -382,6 +400,11 @@ public class LetterGrid : MonoBehaviour
 						{
 							tempLetters[(int)tilePos.x][(int)tilePos.y] = word.value[j].ToString();
 						}
+
+						if(j == 0)
+						{
+							firstLetterLocations.Add(word, tilePos);
+						}
 					}
 					isPlaced = true;
 				}
@@ -413,5 +436,11 @@ public class LetterGrid : MonoBehaviour
 		int rand = Random.Range(0, alphabet.Length);
 		string letter = alphabet[rand].ToString();
 		gridLetters[x][y] = letter;	
+	}
+
+	public void HighlightTile(Vector2 coords, Word word)
+	{
+		StopAllHighlightedTiles();
+		tiles[(int)coords.x][(int)coords.y].SetHighlighted(word);
 	}
 }

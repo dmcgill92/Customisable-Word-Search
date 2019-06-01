@@ -25,6 +25,10 @@ public class IntVariable : ScriptableObject, ISerializationCallbackReceiver
 		set
 		{
 			number = value;
+			if (toggleEvent != null)
+			{
+				toggleEvent.Raise();
+			}
 		}
 	}
 

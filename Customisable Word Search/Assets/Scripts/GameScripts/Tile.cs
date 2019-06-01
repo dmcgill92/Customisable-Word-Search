@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 [System.Serializable]
 public class Tile : MonoBehaviour
@@ -9,6 +10,10 @@ public class Tile : MonoBehaviour
 	private bool isSelected;
 	private TMPro.TextMeshProUGUI textMesh;
 	private Collider2D col;
+	[SerializeField]
+	private Image image;
+	private Word word;
+	private bool isHighlighted;
 
 	//private int xCoord;
 	//private int yCoord;
@@ -17,22 +22,35 @@ public class Tile : MonoBehaviour
 	// Update is called once per frame
 	void Update()
 	{
-
+		if(isHighlighted)
+		{
+			if(word.isFound.State)
+			{
+				StopHighlight();
+			}
+		}
 	}
 
 	// Assign letter to display
 	public void SetTile (string ltr)
 	{
-		if(col == null)
+		if (image == null || textMesh == null)
 		{
-			col = GetComponent<Collider2D>();
-			textMesh = GetComponentInChildren<TMPro.TextMeshProUGUI>();
+			foreach(Transform child in transform)
+			{
+				if(child.GetComponent<Image>())
+				{
+					image = child.GetComponent<Image>();
+				}
+				else
+				if(child.GetComponent<TMPro.TextMeshProUGUI>())
+				{
+					textMesh = child.GetComponent<TMPro.TextMeshProUGUI>();
+				}
+			}
 		}
 		letter = ltr;
-		if(textMesh == null)
-		{
-			Debug.Log("Broken");
-		}
+		image.enabled = false;
 		textMesh.text = letter;
 	}
 
@@ -46,16 +64,32 @@ public class Tile : MonoBehaviour
 		isSelected = state;
 	}
 
-	//public void ToggleCorrectState()
-	//{
-	//	isCorrect = true;
-	//}
+	public void SetHighlighted(Word word)
+	{
+		if(isHighlighted)
+		{
+			return;
+		}
 
-	//public void SetCoords(int x, int y)
-	//{
-	//	xCoord = x;
-	//	yCoord = y;
-	//}
+		this.word = word;
+		textMesh.color = Color.green;
+		isHighlighted = true;
+		InvokeRepeating("Highlight", 0.05f, 0.5f);
+	}
+
+	public void Highlight()
+	{
+		image.enabled = !image.enabled;
+	}
+
+	public void StopHighlight()
+	{
+		CancelInvoke("Highlight");
+		isHighlighted = false;
+		word = null;
+		textMesh.color = Color.white;
+		image.enabled = false;
+	}
 
 	public string GetLetter()
 	{

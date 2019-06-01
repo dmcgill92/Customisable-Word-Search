@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ceb56c6820348784986cac28a77ab150, type: 3}
   m_Name: Coins
   m_EditorClassIdentifier: 
-  toggleEvent: {fileID: 0}
+  toggleEvent: {fileID: 11400000, guid: 4fbc39e447f9a1f43b1344a60142c094, type: 2}
   initialValue: 100
